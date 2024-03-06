@@ -60,3 +60,13 @@ sudo systemctl enable kubelet
 kubectl version
 
 sudo kubeadm config images pull --cri-socket /run/containerd/containerd.sock --kubernetes-version v1.29.2
+
+sudo kubeadm init   --pod-network-cidr=10.244.0.0/16   --upload-certs --kubernetes-version=v1.29.2  --control-plane-endpoint=ip --ignore-preflight-errors=all  --cri-socket /run/containerd/containerd.sock
+
+mkdir -p $HOME/.kube
+
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+kubectl apply -f https://github.com/coreos/flannel/raw/master/Documentation/kube-flannel.yml
